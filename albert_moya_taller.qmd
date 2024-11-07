@@ -1,0 +1,62 @@
+---
+title: "La Influència del Teletreball en la Salut Mental"
+subtitle: "Taller avaluable - Anàlisis de Dades"
+author: "Albert Moya"
+format:
+  html:
+    theme: lumen
+    toc: true
+    toc-depth: 3
+Rendering:
+    embed-resources: true
+---
+
+
+Dades:
+
+https://www.kaggle.com/datasets/waqi786/remote-work-and-mental-health/data
+
+
+## Introducció
+
+El **teletreball** ha esdevingut una pràctica molt popular en els darrers anys, impulsada especialment per la crisi sanitària derivada de la *COVID-19*. Durant el període de confinament, una de les poques opcions per mantenir l'activitat laboral va ser treballar des de casa, fet que va portar moltes empreses a implantar aquesta modalitat com a mesura de seguretat per als treballadors, assegurant així la continuïtat del negoci. 
+
+Ara que hem retornat a la normalitat, el teletreball es manté en diversos sectors, no tant per motius de seguretat sinó per la seva *comoditat i flexibilitat*. Tanmateix, sorgeix una pregunta fonamental: **Quin impacte té el teletreball en la salut mental dels treballadors? És realment positiu o presenta desavantatges ocults?**
+
+Aquest estudi té com a objectiu principal explorar la relació entre el teletreball i els indicadors de salut mental, com ara l'estrès i la qualitat del son, així com comprendre si aquest impacte és similar en aquells que treballen de manera presencial o híbrida. 
+
+
+
+
+## Segona passa
+
+Quantitatives:
+
+- Edad: min 22 max 60
+- Anys d'experiència: min 1 max 35
+- Salari: min 1600 max 300000
+- hores de feina setmanals: min 20 max 60
+- nombre de meetings virtuals: min 0 max 15
+
+Ordinals
+
+- activitat física: none, weekly, diary
+- qualitat del son: good, poor, average
+- nivell d'estrés: low, medium, high
+- satisfaction_remote_work: unsatisfied, neutral, satisfied
+
+Nominals
+
+- gènere
+- job_role
+- mental health condition
+- on fan feina: remote, onsite, hybrid
+
+
+
+
+
+
+
+
+
