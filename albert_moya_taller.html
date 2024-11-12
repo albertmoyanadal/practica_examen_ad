@@ -21,40 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -119,7 +85,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#interpretació-de-la-variància-total-i-generalitzada" id="toc-interpretació-de-la-variància-total-i-generalitzada" class="nav-link" data-scroll-target="#interpretació-de-la-variància-total-i-generalitzada">Interpretació de la variància total i generalitzada</a></li>
   </ul></li>
-  <li><a href="#modelització-del-nivell-destrès-amb-una-distribució-multinomial-revisió" id="toc-modelització-del-nivell-destrès-amb-una-distribució-multinomial-revisió" class="nav-link" data-scroll-target="#modelització-del-nivell-destrès-amb-una-distribució-multinomial-revisió">Modelització del nivell d’estrès amb una distribució multinomial (revisió)</a>
+  <li><a href="#modelització-del-nivell-destrès-amb-una-distribució-multinomial" id="toc-modelització-del-nivell-destrès-amb-una-distribució-multinomial" class="nav-link" data-scroll-target="#modelització-del-nivell-destrès-amb-una-distribució-multinomial">Modelització del nivell d’estrès amb una distribució multinomial</a>
   <ul class="collapse">
   <li><a href="#estimació-dels-paràmetres" id="toc-estimació-dels-paràmetres" class="nav-link" data-scroll-target="#estimació-dels-paràmetres">Estimació dels paràmetres</a></li>
   <li><a href="#probabilitat-dun-esdeveniment-en-una-mostra-de-20" id="toc-probabilitat-dun-esdeveniment-en-una-mostra-de-20" class="nav-link" data-scroll-target="#probabilitat-dun-esdeveniment-en-una-mostra-de-20">Probabilitat d’un Esdeveniment en una Mostra de 20</a></li>
@@ -131,6 +97,7 @@ window.Quarto = {
   <li><a href="#implementació-amb-la-funció-hotelling.test" id="toc-implementació-amb-la-funció-hotelling.test" class="nav-link" data-scroll-target="#implementació-amb-la-funció-hotelling.test">Implementació amb la funció <code>hotelling.test</code></a></li>
   <li><a href="#interpretació-dels-resultats" id="toc-interpretació-dels-resultats" class="nav-link" data-scroll-target="#interpretació-dels-resultats">Interpretació dels resultats</a></li>
   </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
   </ul>
 </nav>
 </div>
@@ -162,6 +129,7 @@ window.Quarto = {
 </header>
 
 
+<p><a href="https://github.com/albertmoyanadal/practica_examen_ad"><strong>Repositori de la pràctica</strong></a></p>
 <section id="introducció" class="level2">
 <h2 class="anchored" data-anchor-id="introducció">Introducció</h2>
 <p>El <strong>teletreball</strong> ha esdevingut una pràctica molt popular en els darrers anys, impulsada especialment per la crisi sanitària derivada de la <em>COVID-19</em>. Durant el període de confinament, una de les poques opcions per mantenir l’activitat laboral va ser treballar des de casa, fet que va portar moltes empreses a implantar aquesta modalitat com a mesura de seguretat per als treballadors, assegurant així la continuïtat del negoci.</p>
@@ -488,21 +456,6 @@ window.Quarto = {
 <p><strong>Altres gràfics per fer un anàlisi descriptiu multivariant</strong></p>
 <p>Podem fer una gràfica resum de totes les variables que hem tengut en compte per fer les gràfiques anteriors. Ho podem fer usant una matriu de dispersió, que ens és molt útil per trobar la correlació entre dues variables de les nostres dades.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span> </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Nivell_estres, Salari, Hores_feina_setmanals, Localitzacio, Qualitat_son, Satisfaccio_teletreball) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>(., </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"points"</span>, <span class="at">color =</span> <span class="st">"#F7D6C1"</span>)),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">diag =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"densityDiag"</span>, <span class="at">fill =</span> <span class="st">"#D1A7B8"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -513,12 +466,6 @@ window.Quarto = {
 </div>
 <p>Amb les variables quantitatives que tenim no té sentit fer una matriu de correlació perquè aparentment pareix que no han de tenir cap tipus de lligadura les dades. Però si que pot ser interessant comparar 3 de les variables ordinals que hem emprat en els gràfics anteriors amb un gràfic de mosaic:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Nivell_estres, Qualitat_son, Activitat_fisica) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>a1 <span class="ot">&lt;-</span> <span class="fu">table</span>(a)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(a1,<span class="at">shade=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -544,16 +491,13 @@ window.Quarto = {
 </ul>
 </section>
 </section>
-<section id="modelització-del-nivell-destrès-amb-una-distribució-multinomial-revisió" class="level2">
-<h2 class="anchored" data-anchor-id="modelització-del-nivell-destrès-amb-una-distribució-multinomial-revisió">Modelització del nivell d’estrès amb una distribució multinomial (revisió)</h2>
+<section id="modelització-del-nivell-destrès-amb-una-distribució-multinomial" class="level2">
+<h2 class="anchored" data-anchor-id="modelització-del-nivell-destrès-amb-una-distribució-multinomial">Modelització del nivell d’estrès amb una distribució multinomial</h2>
 <p>Ara modelitzarem una de les variables ordinals amb una distribució multinomial, per això haurem d’estimar els seus paràmetres. Utilitzarem aquest model per calcular la probabilitat d’un event d’interés en una mostra de mida 20. Seguirem aquests passos amb la variable de <code>Nivell_estres</code> (amb categories: “Baix”, “Mitjà”, “Alt”).</p>
 <section id="estimació-dels-paràmetres" class="level3">
 <h3 class="anchored" data-anchor-id="estimació-dels-paràmetres">Estimació dels paràmetres</h3>
 <p>Primer, calculem les probabilitats per a cada categoria de <code>Nivell_estres</code> a partir de la mostra simulada:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la proporció de cada categoria de la variable Localització</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>prob_estres <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(<span class="fu">table</span>(data<span class="sc">$</span>Nivell_estres))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>prob_estres</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   Baix Normal    Alt 
@@ -566,30 +510,16 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="probabilitat-dun-esdeveniment-en-una-mostra-de-20">Probabilitat d’un Esdeveniment en una Mostra de 20</h3>
 <p>Suposem que volem calcular la probabilitat de tenir <strong>almenys 8 treballadors amb un nivell d’estrès alt</strong> en una mostra de 20 persones.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilitats estimades per a cada categoria</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> prob_estres <span class="sc">%&gt;%</span> <span class="fu">as.vector</span>()  </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre total de persones en la mostra i el mínim de persones amb nivell d'estrès alt</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>mida_mostra <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>estres_alt <span class="ot">&lt;-</span> <span class="dv">8</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilitat de tenir almenys 8 persones amb nivell d'estrès alt</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pbinom</span>(<span class="dv">7</span>, <span class="at">size =</span> mida_mostra, <span class="at">prob =</span> prob[<span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2277282</code></pre>
+<pre><code>[1] "Probabilitat de tenir almenys 8 persones amb nivell d'estrès alt: 0.228"</code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="regressió-multivariant" class="level2">
 <h2 class="anchored" data-anchor-id="regressió-multivariant">Regressió multivariant</h2>
-<p>Volem ajustar un model de regressió multivariant per les nostres dades quantitatives. En el nostre cas, crec que pot ser interessant posar la variable <code>Salari</code> com a variable depenent <span class="math inline">\(Y\)</span>. La resta de variables seran les variables intependents <span class="math inline">\(X_i\)</span>.</p>
+<p>Volem ajustar un model de regressió multivariant per les nostres dades quantitatives. En el nostre cas, crec que pot ser interessant posar la variable <code>Salari</code> com a variable depenent <span class="math inline">\(Y\)</span>. La resta de variables seran les variables intependents <span class="math inline">\(X_i\)</span>. El següent codi mostra un resum de la regressió multivariant que hem fet.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar el model de regressió multivariant</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Salari <span class="sc">~</span> Edat <span class="sc">+</span> Anys_experiencia <span class="sc">+</span> Hores_feina_setmanals <span class="sc">+</span> Meetings_setmanals, <span class="at">data =</span> data)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Resum per veure els coeficients estimats i el R^2</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -614,12 +544,6 @@ Residual standard error: 1916 on 95 degrees of freedom
 Multiple R-squared:  0.3506,    Adjusted R-squared:  0.3232 
 F-statistic: 12.82 on 4 and 95 DF,  p-value: 2.199e-08</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Càlcul del score</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="cf">function</span>(beta0, beta1, beta2, beta3, beta4) {</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  pred <span class="ot">&lt;-</span> beta0 <span class="sc">+</span> beta1 <span class="sc">*</span> data<span class="sc">$</span>Edat <span class="sc">+</span> beta2 <span class="sc">*</span> data<span class="sc">$</span>Anys_experiencia <span class="sc">+</span> </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>          beta3 <span class="sc">*</span> data<span class="sc">$</span>Hores_feina_setmanals <span class="sc">+</span> beta4 <span class="sc">*</span> data<span class="sc">$</span>Meetings_setmanals</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span> <span class="fu">sum</span>((data<span class="sc">$</span>Salari <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)  </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="contrast-dhipòtesis" class="level2">
@@ -628,7 +552,7 @@ F-statistic: 12.82 on 4 and 95 DF,  p-value: 2.199e-08</code></pre>
 <p>Volem contrastar si el vector de mitjanes del <strong>salari</strong> és el mateix per als treballadors amb nivell d’estrès baix i per als de nivell d’estrès alt amb un nivell de significació de 0.05. Les hipòtesis són:</p>
 <ul>
 <li><span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_{baix} = \mu_{alt}\)</span> (el vector de mitjanes és el mateix en ambdós grups)</li>
-<li><span class="math inline">\(H_a\)</span>: <span class="math inline">\(\mu_{low} \neq \mu_{high}\)</span> (el vector de mitjanes és diferent entre els dos grups)</li>
+<li><span class="math inline">\(H_1\)</span>: <span class="math inline">\(\mu_{baix} \neq \mu_{alt}\)</span> (el vector de mitjanes és diferent entre els dos grups)</li>
 </ul>
 <section id="contrast-teòric" class="level3">
 <h3 class="anchored" data-anchor-id="contrast-teòric">Contrast teòric</h3>
@@ -636,67 +560,47 @@ F-statistic: 12.82 on 4 and 95 DF,  p-value: 2.199e-08</code></pre>
 <p><span class="math display">\[
 T^2 = \frac{n_1 n_2}{n_1 + n_2} (\bar{X}_1 - \bar{X}_2)' S_p^{-1} (\bar{X}_1 - \bar{X}_2)
 \]</span></p>
-<p>on: - <span class="math inline">\(n_1\)</span> i <span class="math inline">\(n_2\)</span> són les mides de mostra dels dos grups (nivells d’estrès baix i alt). - <span class="math inline">\(\bar{X}_1\)</span> i <span class="math inline">\(\bar{X}_2\)</span> són els vectors de mitjanes dels dos grups. - <span class="math inline">\(S_p\)</span> és la matriu de covariància agrupada (estimada a partir de les mostres de cada grup)</p>
+<p>on:</p>
+<ul>
+<li><p><span class="math inline">\(n_1\)</span> i <span class="math inline">\(n_2\)</span> són les mides de mostra dels dos grups (nivells d’estrès baix i alt).</p></li>
+<li><p><span class="math inline">\(\bar{X}_1\)</span> i <span class="math inline">\(\bar{X}_2\)</span> són els vectors de mitjanes dels dos grups.</p></li>
+<li><p><span class="math inline">\(S_p\)</span> és la matriu de covariància agrupada (estimada a partir de les mostres de cada grup)</p></li>
+</ul>
 <p>Ara feim els càlculs corresponents:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creació de les mostres per als dos grups de nivell d'estrès</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>grup_baix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">subset</span>(data, Nivell_estres <span class="sc">==</span> <span class="st">"Baix"</span>)[, <span class="st">"Salari"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>grup_alt <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">subset</span>(data, Nivell_estres <span class="sc">==</span> <span class="st">"Alt"</span>)[, <span class="st">"Salari"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombre de mostres</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>n1 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(grup_baix)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>n2 <span class="ot">&lt;-</span> <span class="fu">nrow</span>(grup_alt)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Mitjanes de cada grup</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>X1_bar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(grup_baix)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>X2_bar <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(grup_alt)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrius de covariància de cada grup</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>S1 <span class="ot">&lt;-</span> <span class="fu">cov</span>(grup_baix)</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>S2 <span class="ot">&lt;-</span> <span class="fu">cov</span>(grup_alt)</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriu de covariància combinada (pooled covariance matrix)</span></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>Sp <span class="ot">&lt;-</span> (((n1 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> S1) <span class="sc">+</span> ((n2 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> S2)) <span class="sc">/</span> (n1 <span class="sc">+</span> n2 <span class="sc">-</span> <span class="dv">2</span>)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Càlcul de T^2</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>T2 <span class="ot">&lt;-</span> (n1 <span class="sc">*</span> n2) <span class="sc">/</span> (n1 <span class="sc">+</span> n2) <span class="sc">*</span> <span class="fu">t</span>(X1_bar <span class="sc">-</span> X2_bar) <span class="sc">%*%</span> <span class="fu">solve</span>(Sp) <span class="sc">%*%</span> (X1_bar <span class="sc">-</span> X2_bar)</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Graus de llibertat per a la distribució F</span></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">length</span>(X1_bar)  <span class="co"># Nombre de variables</span></span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> p  <span class="co"># Graus de llibertat del numerador</span></span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> n1 <span class="sc">+</span> n2 <span class="sc">-</span> p <span class="sc">-</span> <span class="dv">1</span>  <span class="co"># Graus de llibertat del denominador</span></span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular el valor p utilitzant la distribució F</span></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>p_valor <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(T2 <span class="sc">*</span> (n1 <span class="sc">+</span> n2 <span class="sc">-</span> p <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (df1 <span class="sc">*</span> (n1 <span class="sc">+</span> n2)), df1, df2)</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultat</span></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>T2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         [,1]
-[1,] 1.533902</code></pre>
+<pre><code>[1] "Resultat del test: 1.53390211263045"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p_valor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         [,1]
-[1,] 0.226917</code></pre>
+<pre><code>[1] "Graus de llibertat del numerador: 1"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Graus de llibertat del denominador: 65"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "P-valor: 0.226917017169613"</code></pre>
 </div>
 </div>
 </section>
 <section id="implementació-amb-la-funció-hotelling.test" class="level3">
 <h3 class="anchored" data-anchor-id="implementació-amb-la-funció-hotelling.test">Implementació amb la funció <code>hotelling.test</code></h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creació de les mostres per als dos grups de nivell d'estrès</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>grup_baix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">subset</span>(data, Nivell_estres <span class="sc">==</span> <span class="st">"Baix"</span>)[, <span class="st">"Salari"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>grup_alt <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">subset</span>(data, Nivell_estres <span class="sc">==</span> <span class="st">"Alt"</span>)[, <span class="st">"Salari"</span>, <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Contrast de Hotelling</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hotelling.test</span>(grup_baix, grup_alt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test stat:  1.5339 
+Numerator df:  1 
+Denominator df:  65 
+P-value:  0.22 </code></pre>
+</div>
 </div>
 </section>
 <section id="interpretació-dels-resultats" class="level3">
 <h3 class="anchored" data-anchor-id="interpretació-dels-resultats">Interpretació dels resultats</h3>
 <p>Com hem vist, fent-ho de manera teòrica i implantant la funció a R ens ha sortit el mateix resultat. Dacord al nivell de significació de 0.05 que hem marcal al començament, no hi ha evidència per rebutjar la hipòtesi nula, per tant concloem en que no existeix una diferència significativa en el <strong>Salari</strong> entre els dos nivell d’estrès. Per tant, podem dir que el nivell d’estrès en els treballadors no garantitza no té un afecte en el seu salari mitjà.</p>
 </section>
+</section>
+<section id="conclusions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusions">Conclusions</h2>
+<p>D’acord a la naturalesa del taller no podem treure cap conclusió perquè s’ha fet amb dades simulades i de manera aleatòria, per tant, no podem treure cap resultat que tengui validesa. Encara així el taller ha estat útil per familiaritzar-me amb les passes d’un anàlisi de dades. Una recomanació que trob que seria útil seria fer el mateix taller però amb una base de dades reals, seria molt més interessant, encara que crec que tendria una difícil immplementació.</p>
 </section>
 
 </main>

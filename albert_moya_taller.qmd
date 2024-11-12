@@ -4,7 +4,7 @@ subtitle: "Taller avaluable - Anàlisis de Dades"
 author: "Albert Moya"
 format:
   html:
-    theme: lumen
+    theme: minty
     toc: true
     toc-depth: 3
 Rendering:
@@ -26,6 +26,7 @@ library(Hotelling)
 library(knitr)
 ```
 
+[**Repositori de la pràctica**](https://github.com/albertmoyanadal/practica_examen_ad)
 
 
 ## Introducció
@@ -170,7 +171,13 @@ ggplot(data, aes(x = Localitzacio, fill = Nivell_estres)) +
   theme(
     panel.background = element_rect(fill = "transparent", colour = "transparent"),
     plot.background = element_rect(fill = "transparent", colour = "transparent")) +
-  labs(title = "Distribució de Nivell d'Estrès per Localització", y = "Proporció")
+  labs(
+    title = "Distribució de Nivell d'Estrès per Localització",
+    y = "Proporció",
+    x = "Localització",  # Nom de l'eix X
+    fill = "Nivell d'Estrès"  # Nom de la llegenda
+  )
+
 ```
 
 
@@ -185,7 +192,13 @@ ggplot(data, aes(x = Hores_feina_setmanals, y = Salari, color = Nivell_estres)) 
   theme(
     panel.background = element_rect(fill = "transparent", colour = "transparent"),
     plot.background = element_rect(fill = "transparent", colour = "transparent")) +
-  labs(title = "Relació entre Salari i Hores de Feina Setmanals", x = "Hores de Feina Setmanals", y = "Salari")
+  labs(
+    title = "Relació entre Salari i Hores de Feina Setmanals",
+    x = "Hores de Feina Setmanals",  # Nom de l'eix X
+    y = "Salari",  # Nom de l'eix Y
+    color = "Nivell d'Estrès"  # Nom de la llegenda
+  )
+
 ```
 
 **Influència de les hores treballades i la qualitat del son**
@@ -199,7 +212,13 @@ ggplot(data, aes(x = Qualitat_son, y = Hores_feina_setmanals, fill = Qualitat_so
   theme(
     panel.background = element_rect(fill = "transparent", colour = "transparent"),
     plot.background = element_rect(fill = "transparent", colour = "transparent")) +
-  labs(title = "Relació entre les hores de feina i la qualitat de son", y = "Hores de Feina")
+  labs(
+    title = "Relació entre les Hores de Feina i la Qualitat de Son",
+    x = "Qualitat del Son",  # Nom de l'eix X
+    y = "Hores de Feina",    # Nom de l'eix Y
+    fill = "Qualitat del Son"  # Títol de la llegenda
+  )
+
 ```
 
 **Satisfacció del teletreball per nivell d'estrès**
@@ -213,7 +232,13 @@ ggplot(data, aes(x = Satisfaccio_teletreball, fill = Nivell_estres)) +
   theme(
     panel.background = element_rect(fill = "transparent", colour = "transparent"),
     plot.background = element_rect(fill = "transparent", colour = "transparent")) +
-  labs(title = "Satisfacció amb el Teletreball per Nivell d'estrés", y = "Nombre d'Observacions")
+  labs(
+    title = "Satisfacció amb el Teletreball per Nivell d'estrés",
+    x = "Satisfacció amb el Teletreball",  # Etiqueta per l'eix x
+    y = "Nombre d'Observacions",          # Etiqueta per l'eix y
+    fill = "Nivell d'Estrès"              # Etiqueta per la llegenda
+  )
+
 ```
 
 
@@ -221,17 +246,20 @@ ggplot(data, aes(x = Satisfaccio_teletreball, fill = Nivell_estres)) +
 
 Podem fer una gràfica resum de totes les variables que hem tengut en compte per fer les gràfiques anteriors. Ho podem fer usant una matriu de dispersió, que ens és molt útil per trobar la correlació entre dues variables de les nostres dades.
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
+
 data %>% 
   dplyr::select(Nivell_estres, Salari, Hores_feina_setmanals, Localitzacio, Qualitat_son, Satisfaccio_teletreball) %>% 
   ggpairs(., 
         lower = list(continuous = wrap("points", color = "#F7D6C1")),
         diag = list(continuous = wrap("densityDiag", fill = "#D1A7B8")))
+
+
 ```
 
 Amb les variables quantitatives que tenim no té sentit fer una matriu de correlació perquè aparentment pareix que no han de tenir cap tipus de lligadura les dades. Però si que pot ser interessant comparar 3 de les variables ordinals que hem emprat en els gràfics anteriors amb un gràfic de mosaic:
 
-```{r}
+```{r, echo=FALSE}
 a <- data %>%
   dplyr::select(Nivell_estres, Qualitat_son, Activitat_fisica) %>%
   na.omit()
@@ -270,7 +298,7 @@ print(paste("Variança Generalitzada:", variancia_generalitzada))
 
 
 
-## Modelització del nivell d'estrès amb una distribució multinomial (revisió)
+## Modelització del nivell d'estrès amb una distribució multinomial
 
 Ara modelitzarem una de les variables ordinals amb una distribució multinomial, per això haurem d'estimar els seus paràmetres. Utilitzarem aquest model per calcular la probabilitat d'un event d'interés en una mostra de mida 20. Seguirem aquests passos amb la variable de `Nivell_estres` (amb categories: "Baix", "Mitjà", "Alt").
 
@@ -278,7 +306,7 @@ Ara modelitzarem una de les variables ordinals amb una distribució multinomial,
 
 Primer, calculem les probabilitats per a cada categoria de `Nivell_estres`  a partir de la mostra simulada:
 
-```{r}
+```{r, echo=FALSE}
 # Calcular la proporció de cada categoria de la variable Localització
 prob_estres <- prop.table(table(data$Nivell_estres))
 prob_estres
@@ -291,7 +319,7 @@ Aquests valors representen les probabilitats estimades per a cada categoria en l
 
 Suposem que volem calcular la probabilitat de tenir **almenys 8 treballadors amb un nivell d'estrès alt** en una mostra de 20 persones. 
 
-```{r}
+```{r, echo=FALSE}
 # Probabilitats estimades per a cada categoria
 prob <- prob_estres %>% as.vector()  
 
@@ -300,16 +328,18 @@ mida_mostra <- 20
 estres_alt <- 8
 
 # Probabilitat de tenir almenys 8 persones amb nivell d'estrès alt
-1 - pbinom(7, size = mida_mostra, prob = prob[3])
+prob_event <- 1 - pbinom(7, size = mida_mostra, prob = prob[3])
+
+print(paste("Probabilitat de tenir almenys 8 persones amb nivell d'estrès alt:", round(prob_event, 3)))
 
 ```
 
 
 ## Regressió multivariant
 
-Volem ajustar un model de regressió multivariant per les nostres dades quantitatives. En el nostre cas, crec que pot ser interessant posar la variable `Salari` com a variable depenent $Y$. La resta de variables seran les variables intependents $X_i$.
+Volem ajustar un model de regressió multivariant per les nostres dades quantitatives. En el nostre cas, crec que pot ser interessant posar la variable `Salari` com a variable depenent $Y$. La resta de variables seran les variables intependents $X_i$. El següent codi mostra un resum de la regressió multivariant que hem fet.
 
-```{r}
+```{r, echo=FALSE}
 # Ajustar el model de regressió multivariant
 model <- lm(Salari ~ Edat + Anys_experiencia + Hores_feina_setmanals + Meetings_setmanals, data = data)
 
@@ -335,7 +365,7 @@ En el nostre cas, seguirem l'exemple de l'enunciat i evaluarem si el vector de m
 Volem contrastar si el vector de mitjanes del **salari** és el mateix per als treballadors amb nivell d'estrès baix i per als de nivell d'estrès alt amb un nivell de significació de 0.05. Les hipòtesis són:
 
 - $H_0$: $\mu_{baix} = \mu_{alt}$ (el vector de mitjanes és el mateix en ambdós grups)
-- $H_a$: $\mu_{low} \neq \mu_{high}$ (el vector de mitjanes és diferent entre els dos grups)
+- $H_1$: $\mu_{baix} \neq \mu_{alt}$ (el vector de mitjanes és diferent entre els dos grups)
 
 
 ### Contrast teòric
@@ -347,13 +377,16 @@ T^2 = \frac{n_1 n_2}{n_1 + n_2} (\bar{X}_1 - \bar{X}_2)' S_p^{-1} (\bar{X}_1 - \
 $$
 
 on:
+
 - $n_1$ i $n_2$ són les mides de mostra dels dos grups (nivells d'estrès baix i alt).
+
 - $\bar{X}_1$ i $\bar{X}_2$ són els vectors de mitjanes dels dos grups.
+
 - $S_p$ és la matriu de covariància agrupada (estimada a partir de les mostres de cada grup)
 
 Ara feim els càlculs corresponents:
 
-```{r}
+```{r, echo=FALSE}
 # Creació de les mostres per als dos grups de nivell d'estrès
 grup_baix <- as.matrix(subset(data, Nivell_estres == "Baix")[, "Salari", drop = FALSE])
 grup_alt <- as.matrix(subset(data, Nivell_estres == "Alt")[, "Salari", drop = FALSE])
@@ -385,22 +418,21 @@ df2 <- n1 + n2 - p - 1  # Graus de llibertat del denominador
 p_valor <- 1 - pf(T2 * (n1 + n2 - p - 1) / (df1 * (n1 + n2)), df1, df2)
 
 # Resultat
-T2
-p_valor
+print(paste("Resultat del test:", T2))
+print(paste("Graus de llibertat del numerador:", df1))
+print(paste("Graus de llibertat del denominador:", df2))
+print(paste("P-valor:", p_valor))
+
 ```
 
 
 ### Implementació amb la funció `hotelling.test`
 
 
-```{r}
 
-# Creació de les mostres per als dos grups de nivell d'estrès
-grup_baix <- as.matrix(subset(data, Nivell_estres == "Baix")[, "Salari", drop = FALSE])
-grup_alt <- as.matrix(subset(data, Nivell_estres == "Alt")[, "Salari", drop = FALSE])
-
+```{r, echo=FALSE}
 # Contrast de Hotelling
-hotelling.test(grup_baix, grup_alt)
+print(hotelling.test(grup_baix, grup_alt))
 
 ```
 
@@ -410,6 +442,8 @@ Com hem vist, fent-ho de manera teòrica i implantant la funció a R ens ha sort
 
 
 
+## Conclusions
 
+D'acord a la naturalesa del taller no podem treure cap conclusió perquè s'ha fet amb dades simulades i de manera aleatòria, per tant, no podem treure cap resultat que tengui validesa. Encara així el taller ha estat útil per familiaritzar-me amb les passes d'un anàlisi de dades. Una recomanació que trob que seria útil seria fer el mateix taller però amb una base de dades reals, seria molt més interessant, encara que crec que tendria una difícil immplementació.
 
 
